@@ -28,7 +28,7 @@ jobs:
       
     - name: Buil Docker Image
       run: |
-        docker build -t lgsalinasp docker-graphql:0.0.2 .
+        docker build -t lgsalinasp/docker-graphql:0.0.2 .
         
     - name: Push Docker Image
       run: |
