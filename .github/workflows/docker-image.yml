@@ -29,10 +29,12 @@ jobs:
     - name: Buil Docker Image
       run: |
         docker build -t lgsalinasp/docker-graphql:0.0.5 .
+         docker build -t lgsalinasp/docker-graphql:latest .
         
     - name: Push Docker Image
       run: |
-        docker push lgsalinasp/docker-graphql:0.0.5 
+        docker push lgsalinasp/docker-graphql:0.0.5
+         docker push lgsalinasp/docker-graphql:latest
 
 #    - name: Build the Docker image
 #      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
