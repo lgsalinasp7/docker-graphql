@@ -13,6 +13,40 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - name: Checkout code 
+      uses: actions/checkout@v3
+      with: 
+        fetch-depth: 0
+        
+    - name: Git Semantic Version
+      uses: PaulHatch/semantic-version@v4.0.3
+      with:
+       major_pattern: "major:"
+       minor_pattern: "feat:"
+       format: "${major}.${minor}.${patch}-prerelease${increment}"
+      id: version
+        
+
+
+    - name: Docker login
+      env:
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        NEW_VERSION: ${{ steps.version.outputs.version }}
+      run: |
+        echo "Iniciando login"
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+        echo "New version: $NEW_VERSION!!!!!!!!!! "
+      
+   # - name: Buil Docker Image
+   #   run: |
+   #     docker build -t lgsalinasp/docker-graphql:0.0.5 .
+   #      docker build -t lgsalinasp/docker-graphql:latest .
+        
+   # - name: Push Docker Image
+   #   run: |
+   #     docker push lgsalinasp/docker-graphql:0.0.5
+   #     docker push lgsalinasp/docker-graphql:latest
+
+#    - name: Build the Docker image
+#      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
